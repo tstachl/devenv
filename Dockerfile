@@ -4,7 +4,7 @@ LABEL description="My personal development environment."
 LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
 
 RUN apt-get update -y && apt-get full-upgrade -y \
-    && apt-get install -y git zsh vim tmux sudo curl gpg \
+    && apt-get install -y git zsh vim tmux sudo curl gpg tmuxinator \
     && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
     && usermod -a -G sudo thomas \
     && su - thomas \
@@ -27,4 +27,4 @@ RUN yadm clone https://github.com/tstachl/dotfiles.git --bootstrap \
 CMD sleep 1 && yadm decrypt \
     && git clone git@github.com:${REPO} \
     && cd $(basename $REPO) \
-    && zsh
+    && tmux
