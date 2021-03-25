@@ -24,7 +24,7 @@ RUN yadm clone https://github.com/tstachl/dotfiles.git --bootstrap \
     && ~/.tmux/plugins/tpm/bin/install_plugins \
     && echo "All Done"
 
-CMD yadm pull && yadm decrypt \
+CMD yadm decrypt && yadm pull \
     && git clone git@github.com:${REPO} \
     && cd $(basename $REPO) \
     && tmux new-session \; \
