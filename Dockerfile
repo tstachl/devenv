@@ -16,7 +16,6 @@ RUN apt-get update -y && apt-get full-upgrade -y \
 
 ENV REPO=tstachl/devenv TERM=xterm-256color EDITOR=vim SHELL=/usr/bin/zsh
 USER thomas
-WORKDIR /home/thomas
 
 SHELL ["/usr/bin/zsh", "-c"]
 
@@ -24,7 +23,10 @@ RUN yadm clone https://github.com/tstachl/dotfiles.git --bootstrap \
     && source ~/.zshrc \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && ~/.tmux/plugins/tpm/bin/install_plugins \
+    && mkdir ~/workspace \
     && echo "All Done"
+
+WORKDIR /home/thomas/workspace
 
 CMD entrypoint.sh
 
