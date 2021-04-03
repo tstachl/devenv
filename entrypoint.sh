@@ -2,10 +2,12 @@
 
 yadm decrypt && yadm pull
 
-if [ -d "$REPO" ]; then
-  cd $(basename $REPO) && git pull
+dir=$(basename $REPO)
+
+if [ -d "$dir" ]; then
+  cd $dir && git pull
 else
-  git clone git@github.com:${REPO} && cd $(basename $REPO)
+  git clone git@github.com:${REPO} && cd $dir
 fi
 
 tmux new-session \; \
