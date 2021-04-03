@@ -13,7 +13,7 @@ RUN apt-get update -y && apt-get full-upgrade -y \
     && sudo curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm \
     && sudo chmod a+x /usr/local/bin/yadm \
     && sudo chmod a+x /usr/local/bin/entrypoint.sh \
-    && ssh-keyscan -H 192.30.255.112 >> ~/.ssh/known_hosts
+    && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 ENV REPO=tstachl/devenv TERM=xterm-256color EDITOR=vim SHELL=/usr/bin/zsh
 USER thomas
