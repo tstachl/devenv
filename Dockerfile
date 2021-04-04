@@ -7,12 +7,14 @@ COPY entrypoint.sh /usr/local/bin
 RUN apt-get update -y && apt-get full-upgrade -y \
     && apt-get install -y git zsh vim tmux sudo htop curl gpg \
     && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
-    && usermod -a -G sudo thomas \
-    && su - thomas \
-    && sh -c "$(curl -sSL https://get.docker.com/)" \
-    && sudo usermod -aG docker thomas \
+    && usermod -a -G sudo thomas
+
+RUN sh -c "$(curl -sSL https://get.docker.com/)"
+RUN sudo usermod -aG docker thomas \
     && sudo systemctl enable docker.service \
-    && sudo systemctl enable containerd.serice \
+    && sudo systemctl enable containerd.serice
+
+RUN su - thomas \
     && cd ~ \
     && sudo curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm \
     && sudo chmod a+x /usr/local/bin/yadm \
