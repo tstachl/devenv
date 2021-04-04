@@ -6,7 +6,7 @@ LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
 COPY entrypoint.sh /usr/local/bin
 RUN apt-get update -y && apt-get full-upgrade -y \
     && apt-get install -y git zsh vim tmux sudo htop curl gpg \
-    && sh -c "$(curl -sSL https://get.docker.com/)" \
+    && bash -c "$(curl -sSL https://get.docker.com/)" \
     && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
     && usermod -a -G sudo thomas \
     && su - thomas \
