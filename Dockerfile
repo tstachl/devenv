@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:buster-slim
 LABEL name="Development Environment"
 LABEL description="My personal development environment."
 LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
@@ -6,20 +6,14 @@ LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
 COPY entrypoint.sh /usr/local/bin
 RUN apt-get update -y && apt-get full-upgrade -y \
     && apt-get install -y git zsh vim tmux sudo htop curl gpg \
-        apt-transport-https ca-certificates gnupg2 software-properties-common \
-    && curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+    && sh -c "$(curl -sSL https://get.docker.com/)" \
+    && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
+    && usermod -a -G sudo thomas \
+    && usermod -aG docker thomas \
+    && systemctl enable docker.service \
+    && systemctl enable containerd.serice
 
-RUN add-apt-repository "deb [arch=$(uname --m)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-RUN apt-get update -y && apt-get install -y docker-ce 
-RUN useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
-    && usermod -a -G sudo thomas
-
-RUN sudo usermod -aG docker thomas \
-    && sudo systemctl enable docker.service \
-    && sudo systemctl enable containerd.serice
-
-RUN su - thomas \
-    && cd ~ \
+RUN su - thomas && cd ~ \
     && sudo curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm \
     && sudo chmod a+x /usr/local/bin/yadm \
     && sudo chmod a+x /usr/local/bin/entrypoint.sh
