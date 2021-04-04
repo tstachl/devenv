@@ -1,6 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 yadm decrypt && yadm pull
+
+if [[ ! -f "$HOME/.docker/config.json" ]]; then
+  echo "You're not allowed to continue."
+  exit
+fi
 
 dir=$(basename $REPO)
 
