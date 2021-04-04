@@ -7,10 +7,11 @@ COPY entrypoint.sh /usr/local/bin
 RUN apt-get update -y && apt-get full-upgrade -y \
     && apt-get install -y git zsh vim tmux sudo htop curl gpg \
         apt-transport-https ca-certificates gnupg2 software-properties-common \
-    && curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
-    && add-apt-repository "deb [arch=$(uname --m)] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
-    && apt-get update -y && apt-get install -y docker-ce \
-    && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
+    && curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+
+RUN add-apt-repository "deb [arch=$(uname --m)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+RUN apt-get update -y && apt-get install -y docker-ce 
+RUN useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
     && usermod -a -G sudo thomas
 
 RUN sudo usermod -aG docker thomas \
