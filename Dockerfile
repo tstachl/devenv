@@ -9,7 +9,7 @@ RUN apt-get update -y && apt-get full-upgrade -y \
     && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
     && usermod -a -G sudo thomas
 
-RUN sh -c "$(curl -sSL https://get.docker.com/)"
+RUN curl -sSL https://get.docker.com/
 RUN sudo usermod -aG docker thomas \
     && sudo systemctl enable docker.service \
     && sudo systemctl enable containerd.serice
