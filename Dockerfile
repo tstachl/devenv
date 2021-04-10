@@ -9,6 +9,7 @@ RUN apt-get update -y && apt-get full-upgrade -y \
     && sh -c "$(curl -sSL https://get.docker.com/)" \
     && useradd -p $(openssl passwd -crypt password) -ms /usr/bin/zsh thomas \
     && usermod -aG sudo thomas \
+    && echo 'thomas ALL=(ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/010_thomas-nopasswd \
     && su - thomas && cd ~ \
     && sudo curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm \
     && sudo chmod a+x /usr/local/bin/yadm \
