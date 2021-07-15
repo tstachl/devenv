@@ -5,7 +5,7 @@ LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
 
 COPY entrypoint.sh /usr/local/bin
 RUN apk update && apk upgrade --prune \
-    && apk add git zsh bash vim tmux htop sudo curl gnupg docker \
+    && apk add git zsh bash vim tmux htop sudo curl gnupg docker openssh \
     && adduser -D -s $(which zsh) thomas \ 
     && echo "thomas ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/thomas \
     && chmod 0440 /etc/sudoers.d/thomas \
