@@ -1,0 +1,9 @@
+{
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "workbench.startupEditor": "none",
+    "workbench.statusBar.visible": false,
+    "workbench.activityBar.visible": false,
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.panel.opensMaximized": "always",
+    "zenMode.fullScreen": false
+}
