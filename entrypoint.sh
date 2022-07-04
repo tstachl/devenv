@@ -23,4 +23,4 @@ tmux new-session \; \
   select-pane -t 1 \; \
   send-keys 'htop' C-m \; \
   select-pane -t 0 \; \
-  send-keys 'vim .' C-m \;
+  send-keys 'nvim .' C-m \;
