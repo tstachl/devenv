@@ -12,7 +12,7 @@ RUN apk update && apk upgrade --prune && \
     apk add \
       tzdata musl-locales musl-locales-lang \
       sudo curl openssh docker g++ \
-      chezmoi age fish git neovim tmux htop \
+      chezmoi age fish git neovim tmux htop github-cli \
     && \
     cp /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
     echo "America/Los_Angeles" >  /etc/timezone && \
