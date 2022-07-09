@@ -11,7 +11,7 @@ ENV TZ="America/Los_Angeles" \
 RUN apk update && apk upgrade --prune && \
     apk add \
       tzdata musl-locales musl-locales-lang \
-      sudo curl openssh docker g++ \
+      sudo curl openssh docker g++ npm \
       chezmoi age fish git neovim tmux htop github-cli \
     && \
     cp /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
