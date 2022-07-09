@@ -35,9 +35,11 @@ COPY entrypoint.fish /usr/local/bin
 RUN sudo chmod a+x /usr/local/bin/entrypoint.fish && \
     mkdir ~/.ssh && touch ~/.ssh/known_hosts && \
     echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" >> ~/.ssh/known_hosts && \
-    chezmoi init --verbose https://github.com/tstachl/chezmoi.git && \
-    mkdir ~/workspace \
-    && \
+    chezmoi init --verbose https://github.com/tstachl/chezmoi 
+
+RUN chezmoi apply ~/.config/fish && chezmoi apply ~/.config/nvim && \
+    nvim --headless -c "autocmd User PackerComplete quitall" && \
+    source ~/.config/fish/config.fish && \
     echo "configuration completed"
 
 WORKDIR /home/thomas/workspace
