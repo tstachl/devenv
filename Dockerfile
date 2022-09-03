@@ -3,43 +3,43 @@ LABEL name="Development Environment"
 LABEL description="My personal development environment."
 LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
 
+ARG USER="thomas" \
+    YADM="https://github.com/tstachl/dotfiles.git"
+
+# currently we're still using bash to make yadm work
 ENV TZ="America/Los_Angeles" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
-    LC_ALL="en_US.UTF-8"
+    LC_ALL="en_US.UTF-8" \
+    REPO="tstachl/dotfiles" \
+    TERM="xterm-256color" \
+    EDITOR="nvim" \
+    SHELL="/bin/bash"
 
+# Install required software and add the user
 RUN apk update && apk upgrade --prune && \
     apk add \
-      tzdata musl-locales musl-locales-lang \
-      sudo curl openssh docker g++ \
-      chezmoi age fish git neovim tmux htop \
-    && \
-    cp /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
-    echo "America/Los_Angeles" >  /etc/timezone && \
-    apk del tzdata \
-    && \
-    adduser -D -s $(which fish) thomas && \ 
-    echo "thomas ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/thomas && \
-    chmod 0440 /etc/sudoers.d/thomas \
-    && \
-    echo "setup completed"
+      git bash neovim sudo curl gnupg docker openssh build-base && \
+    \
+    ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
+    \
+    curl -fLo /usr/local/bin/yadm \
+      https://github.com/TheLocehiliosan/yadm/raw/master/yadm && \
+    chmod a+x /usr/local/bin/yadm && \
+    \
+    adduser -D -s $(which bash) $USER && \ 
+    echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
+    chmod 0440 /etc/sudoers.d/$USER
 
-ENV REPO=tstachl/devenv \
-    TERM=xterm-256color \
-    EDITOR=nvim \
-    SHELL=/usr/bin/fish
-USER thomas
-SHELL ["/usr/bin/fish", "-c"]
+COPY files/bash/xdg.sh /etc/profile.d
+COPY files/bash/bash_logout /etc/bash
+COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-COPY entrypoint.fish /usr/local/bin
-RUN sudo chmod a+x /usr/local/bin/entrypoint.fish && \
-    mkdir ~/.ssh && touch ~/.ssh/known_hosts && \
-    echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" >> ~/.ssh/known_hosts && \
-    chezmoi init --verbose https://github.com/tstachl/chezmoi.git && \
-    mkdir ~/workspace \
-    && \
-    echo "configuration completed"
+USER $USER
+SHELL ["/bin/bash", "--login", "-c"]
 
-WORKDIR /home/thomas/workspace
-CMD ["entrypoint.fish"]
+# Clone and bootstrap dotfiles
+RUN yadm clone $YADM
 
+WORKDIR /home/$USER/workspace
+CMD "/usr/local/bin/entrypoint.sh"
