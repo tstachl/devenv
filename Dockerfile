@@ -1,4 +1,4 @@
-FROM  debian:testing-slim
+FROM  alpine:latest
 LABEL name="Development Environment"
 LABEL description="My personal development environment."
 LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
