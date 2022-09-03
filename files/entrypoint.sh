@@ -9,7 +9,8 @@ if yadm bootstrap && yadm decrypt; then
     git clone git@github.com:$REPO $REPO && cd $REPO
   fi
 
-  exec bash -c nvim $REPO
+  clear
+  exec bash --login
 fi
 
 echo "Not allowed to use this."

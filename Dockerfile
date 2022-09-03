@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM  debian:testing-slim
 LABEL name="Development Environment"
 LABEL description="My personal development environment."
 LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
@@ -11,7 +11,7 @@ ENV TZ="America/Los_Angeles" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
-    REPO="tstachl/dotfiles" \
+    REPO="tstachl/devenv" \
     TERM="xterm-256color" \
     EDITOR="nvim" \
     SHELL="/bin/bash"
