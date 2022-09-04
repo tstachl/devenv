@@ -1,4 +1,4 @@
-FROM  alpine:latest
+FROM  alpine:latest AS base
 LABEL name="Development Environment"
 LABEL description="My personal development environment."
 LABEL maintainer="Thomas Stachl <thomas@stachl.me>"
@@ -43,3 +43,7 @@ RUN yadm clone $YADM
 
 WORKDIR /home/$USER/workspace
 CMD "/usr/local/bin/entrypoint.sh"
+
+FROM base AS rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
