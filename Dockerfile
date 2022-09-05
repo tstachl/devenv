@@ -19,7 +19,9 @@ ENV TZ="America/Los_Angeles" \
 # Install required software and add the user
 RUN apk update && apk upgrade --prune && \
     apk add \
-      git bash neovim sudo curl gnupg docker openssh build-base && \
+      git bash neovim sudo curl gnupg docker openssh && \
+    apk add \
+      zig --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
     \
     ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
     \
