@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-if yadm bootstrap && yadm decrypt; then
-  yadm pull
+if yadm pull && yadm bootstrap && yadm decrypt; then
 
   if [ -d "$REPO" ]; then
     cd $REPO && git pull
