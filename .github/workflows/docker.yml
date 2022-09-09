@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
       -
-        name: Build and push
+        name: DevEnv
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -35,7 +35,7 @@ jobs:
           tags: tstachl/devenv:latest
           target: base
       -
-        name: Build and push
+        name: Rust
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -43,6 +43,15 @@ jobs:
           push: true
           tags: tstachl/devenv:rust
           target: rust
+      -
+        name: Node
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tstachl/devenv:node
+          target: node
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

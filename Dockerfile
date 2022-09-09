@@ -12,7 +12,6 @@ ENV TZ="America/Los_Angeles" \
     LANGUAGE="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     REPO="tstachl/devenv" \
-    TERM="xterm-256color" \
     EDITOR="nvim" \
     SHELL="/bin/bash"
 
@@ -50,4 +49,7 @@ CMD "/usr/local/bin/entrypoint.sh"
 
 FROM base AS rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+FROM base as node
+RUN sudo apk add yarn
 
