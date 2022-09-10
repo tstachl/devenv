@@ -16,14 +16,16 @@ ENV TZ="America/Los_Angeles" \
     SHELL="/bin/bash"
 
 # Install required software and add the user
-RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" \
+      >> /etc/apk/repositories && \
+    echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
       >> /etc/apk/repositories && \
     echo "@community https://dl-cdn.alpinelinux.org/alpine/edge/community" \
       >> /etc/apk/repositories && \
     apk update && apk upgrade --prune && \
     apk add \
       git bash neovim@community sudo curl gnupg docker openssh zig@testing \
-      ripgrep@community fd@community && \
+      jemalloc@edge ripgrep@community fd@community && \
     \
     ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
     \
