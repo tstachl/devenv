@@ -26,6 +26,7 @@ RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" \
     apk add \
       git bash neovim@community sudo curl gnupg docker openssh zig@testing \
       jemalloc@edge ripgrep@community fd@community && \
+    apk add --no-cache tzdata && \
     \
     ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
     \
