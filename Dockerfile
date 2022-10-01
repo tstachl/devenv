@@ -52,7 +52,8 @@ WORKDIR /home/$USER/workspace
 CMD "/usr/local/bin/entrypoint.sh"
 
 FROM base AS rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    sudo apk add build-base
 
 FROM base as node
 RUN sudo apk add yarn
