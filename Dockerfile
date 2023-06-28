@@ -15,7 +15,16 @@ ENV TZ="America/Los_Angeles" \
     EDITOR="nvim" \
     SHELL="/bin/bash"
 
-# Install required software and add the user
+# Install required software and add the 
+    #  git bash neovim@community sudo curl gnupg docker openssh zig@testing \
+    #  jemalloc@edge ripgrep@community fd@community &&
+    # \
+    # ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
+    # \
+    # curl -fLo /usr/local/bin/yadm \
+    #   https://github.com/TheLocehiliosan/yadm/raw/master/yadm && \
+    # chmod a+x /usr/local/bin/yadm && \
+    # \
 RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" \
       >> /etc/apk/repositories && \
     echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
@@ -24,16 +33,8 @@ RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" \
       >> /etc/apk/repositories && \
     apk update && apk upgrade --prune && \
     apk add \
-      git bash neovim@community sudo curl gnupg docker openssh zig@testing \
-      jemalloc@edge ripgrep@community fd@community && \
+      bash sudo curl xz && \
     apk add --no-cache tzdata && \
-    \
-    ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
-    \
-    curl -fLo /usr/local/bin/yadm \
-      https://github.com/TheLocehiliosan/yadm/raw/master/yadm && \
-    chmod a+x /usr/local/bin/yadm && \
-    \
     adduser -D -s $(which bash) $USER && \ 
     echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER
@@ -46,15 +47,9 @@ USER $USER
 SHELL ["/bin/bash", "--login", "-c"]
 
 # Clone and bootstrap dotfiles
-RUN yadm clone $YADM
+RUN sh <(curl -L https://nixos.org/nix/install) --no-daemon && \
+    /home/$USER/.nix-profile/bin/nix-env -iA nixpkgs.home-manager && \
+    home-manager --extra-experimental-features "nix-command flakes" switch --flake github:tstachl/z#$USER
 
 WORKDIR /home/$USER/workspace
 CMD "/usr/local/bin/entrypoint.sh"
-
-FROM base AS rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
-    sudo apk add build-base
-
-FROM base as node
-RUN sudo apk add yarn
-
