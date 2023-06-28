@@ -49,7 +49,7 @@ SHELL ["/bin/bash", "--login", "-c"]
 # Clone and bootstrap dotfiles
 RUN sh <(curl -L https://nixos.org/nix/install) --no-daemon && \
     /home/$USER/.nix-profile/bin/nix-env -iA nixpkgs.home-manager && \
-    home-manager --extra-experimental-features "nix-command flakes" switch --flake github:tstachl/z#$USER
+    /home/$USER/.nix-profile/bin/home-manager --extra-experimental-features "nix-command flakes" switch --flake github:tstachl/z#$USER
 
 WORKDIR /home/$USER/workspace
 CMD "/usr/local/bin/entrypoint.sh"
