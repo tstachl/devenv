@@ -48,6 +48,7 @@ SHELL ["/bin/bash", "--login", "-c"]
 
 # Clone and bootstrap dotfiles
 RUN sh <(curl -L https://nixos.org/nix/install) --no-daemon && \
+    source /home/$USER/.nix-profile/etc/profile.d/nix.sh && \
     /home/$USER/.nix-profile/bin/nix-env -iA nixpkgs.home-manager && \
     /home/$USER/.nix-profile/bin/home-manager --extra-experimental-features "nix-command flakes" switch --flake github:tstachl/z#$USER
 
